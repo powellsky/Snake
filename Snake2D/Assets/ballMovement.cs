@@ -17,11 +17,11 @@ public class ballMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime), 5);
+            transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime), 3);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime), -5);
+            transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime), -3);
         }
         transform.Translate(new Vector2(0, speed * Time.deltaTime));
     }

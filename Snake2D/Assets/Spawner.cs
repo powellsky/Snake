@@ -7,15 +7,19 @@ public class Spawner : MonoBehaviour
 {
     public GameObject _borders;
     public GameObject _snakeHead;
+    public GameObject _body;
 
+    private BodySpawner _bodySpawner;
     private CircleCollider2D _headCollider;
     private GameObject[] _snakeBody;
     private BordersHolder _bordersHolder = new BordersHolder();
+   
     const float _gap = 0.02f;
 
     // Start is called before the first frame update
     void Start()
     {
+        _bodySpawner = _body.GetComponent<BodySpawner>();
         _headCollider = _snakeHead.GetComponent<CircleCollider2D>();
         _bordersHolder.BottomY = _borders.transform.Find("Border_Bottom").GetComponent<EdgeCollider2D>().transform.position.y;
         _bordersHolder.TopY = _borders.transform.Find("Border_Top").GetComponent<EdgeCollider2D>().transform.position.y;
@@ -49,6 +53,15 @@ public class Spawner : MonoBehaviour
         if (other.name == "Head")
         {
             Spawn();
+            if (!_bodySpawner._firstSpawn)
+           {
+                _bodySpawner._firstSpawn = true;
+                _body.SetActive(true);
+            }
+            else
+            {
+                _bodySpawner._add = true;
+            }
         }
     }
 
