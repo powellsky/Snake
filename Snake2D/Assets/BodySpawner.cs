@@ -8,14 +8,16 @@ public class BodySpawner : MonoBehaviour
     public bool _firstSpawn = false;
     public bool _add = false;
 
-    private List<GameObject> _bodies = new List<GameObject>();   
+    private List<GameObject> _bodies = new List<GameObject>();
+    private GameObject _headFollower = null;
     // Start is called before the first frame update
     void Start()
     {
         // When initialised, follow the head
         if (_firstSpawn)
         {
-            this.transform.position = _head.transform.position;          
+            _headFollower = GameObject.Find("/Game Container/Head/Follower");
+            this.transform.position = _headFollower.transform.position;        
             _bodies.Add(this.gameObject);
             _firstSpawn = false;
         }
@@ -32,10 +34,11 @@ public class BodySpawner : MonoBehaviour
     {
         if (_add)
         {
-            var clone = _bodies[_bodies.Count - 1];
-            var body = Instantiate(clone, clone.transform.position, clone.transform.rotation);
-            _bodies.Add(body);
             _add = false;
+            var clone = _bodies[_bodies.Count - 1];
+            clone.name = "Body " + _bodies.Count;
+            var body = Instantiate(clone, clone.transform.position, clone.transform.rotation);
+            _bodies.Add(body);          
         }
     }
 
@@ -48,12 +51,12 @@ public class BodySpawner : MonoBehaviour
             if (i == 0)
             {
                 // Follow head
-                current.transform.position =  Vector2.Lerp(current.transform.position, _head.transform.position, Time.deltaTime * 5);
+                current.transform.position = Vector2.Lerp(current.transform.position, _headFollower.transform.position, Time.deltaTime * 4f);
             }
             else
             {
                 var prev = _bodies[i - 1];
-                current.transform.position = Vector2.Lerp(current.transform.position, prev.transform.position, Time.deltaTime * 5);
+                current.transform.position = Vector2.Lerp(current.transform.position, prev.transform.position, Time.deltaTime * 4);
 
             }
         }
